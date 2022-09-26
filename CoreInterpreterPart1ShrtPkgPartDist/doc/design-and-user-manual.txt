@@ -1,0 +1,33 @@
+User's Manual
+
+The Tokenizer interface is designed so that any class that implements it
+would have a design in keeping with the singleton pattern,
+ensuring that at most one instance will arise from such a class.  Hence,
+Tokenizer1's zero-parameter constructor is private.  It offers, instead, a
+static set(Iterator<String>) method to (re)initialize the single instance,
+creating it if necessary.  It also offers an instance() static method to obtain
+the only instance.  The public methods it offers are as described in the course
+slides: getToken(), skipToken(), idName(), and intVal().  The public enum
+TokenKind is the type returned by getToken().  The method getToken() can, and
+should, be called before the first call to skipToken() in order to get
+information about the very first token.
+
+Further notes on the design of the Tokenizer1 class:
+
+So that the tokenizer instance always has a current token for which to
+return information, set(Iterator<String>) gets to the first token by calling
+the private method findToken().  The body of skipToken() simply calls
+findToken().  The method findToken() is organized as a finite state
+automaton (FSA) within logic that obtains the next non-whitespace
+string from the Iterator<String>.  The enum State contains the states of the
+FSA.  This tokenizer recognizes the "subset" of tokens of the Core
+language as described in the Part 1 assignment.
+
+Testing the Tokenizer class:
+
+Test files have been used to test the Tokenizer class using
+two test drivers: TokenizerTest and TokenizerTestEnhanced.  The former
+conforms to the Part 1 requirements; the latter also provides
+information about integers and identifiers, and displays the EOF token.
+
+Testing and debugging to date have left no known bugs in the Tokenizer.
