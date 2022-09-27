@@ -353,7 +353,7 @@ final class Tokenizer1 implements Tokenizer {
                             }
                             break;
                         }
-                        case ID_GATHERING_DIGITS: {//TODO:::
+                        case ID_GATHERING_DIGITS:
                             if (this.head.length() <= this.pos) {
                                 this.kind = TokenKind.IDENTIFIER;
                                 seeking = false;
@@ -437,6 +437,7 @@ final class Tokenizer1 implements Tokenizer {
             }
 
         }
+
     }
 
     /**

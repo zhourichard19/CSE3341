@@ -1,0 +1,31 @@
+This (runfilebased.sh) is a very hacky script that reads the files that do not contain "output" from a folder and, for each one of those files runs a diff between a command from a given Runfile and the unix conversion of the file that has the name: filename+expected-output. It feels fragile and poor, but it does run all 12 files and compares the difference in a single run.
+
+To successfully run runfilebased.sh, you may need to issue the following command
+to establish execute permission for that file:
+
+chmod u+x runfilebased.sh 
+
+Here are the results of a single run:
+zaccai@zaccai-HP:~/eclipse-workspace/CoreInterpreterPart1ShrtPkg$ ./runfilebased.sh Runfile data 
+Running command: java -cp ./bin edu/c3341/TokenizerTest
+With files in folder: data
+file: test01
+12a13
+> 12
+file: test02
+file: test03
+file: test04
+file: test05
+file: test06
+file: test07
+file: test08
+file: test09
+file: test10
+file: test11
+file: test12
+
+I modified the expected answer for file test01 so that there was an error. There is plenty of room for improvement, such as:
+•	flags for verbose output of each students answer
+•	using the output of diff to provide a success report vs an error log (it would be nicer)
+•	using tr to modify the student output so that any white-space becomes a new line (to prevent errors with hard-coded new-lines and/or tabs)
+But, it is a start.
