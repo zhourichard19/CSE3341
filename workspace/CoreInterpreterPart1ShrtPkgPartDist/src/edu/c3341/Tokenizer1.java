@@ -353,7 +353,7 @@ final class Tokenizer1 implements Tokenizer {
                             }
                             break;
                         }
-                        case ID_GATHERING_DIGITS:
+                        case ID_GATHERING_DIGITS: {
                             if (this.head.length() <= this.pos) {
                                 this.kind = TokenKind.IDENTIFIER;
                                 seeking = false;
@@ -382,6 +382,9 @@ final class Tokenizer1 implements Tokenizer {
                                     this.collectCharacter(current);
                                     this.kind = TokenKind.EQUALITY_TEST;
                                     seeking = false;
+                                } else {
+                                    this.kind = TokenKind.ASSIGNMENT_OPERATOR;
+                                    seeking = false;
                                 }
                             }
                             break;
@@ -397,7 +400,7 @@ final class Tokenizer1 implements Tokenizer {
                                     this.collectCharacter(current);
                                     this.kind = TokenKind.OR_OPERATOR;
                                     seeking = false;
-                                }else {
+                                } else {
                                     this.kind = TokenKind.ERROR;
                                     seeking = false;
                                     state = State.ERROR;

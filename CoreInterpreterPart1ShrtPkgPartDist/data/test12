@@ -1,8 +1,0 @@
-only|the first word precedes the first error,
-which either concludes with lower-case characters or is
-followed by a lower-case word, depending upon your interpretation
-of an error token; however, this interpretation has no bearing
-on the expected output, which is:
-
-1
-Error: Illegal token encountered.
