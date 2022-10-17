@@ -4,8 +4,10 @@
 package edu.c3341;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,10 +33,26 @@ final class Tokenizer1 implements Tokenizer {
 
     static {
         STRICT_SINGLE_CHARACTER_TOKENS = new HashSet<>();
-        String source = ";";
+        String source = ";,[]()+-*";
         for (int i = 0; i < source.length(); i++) {
             STRICT_SINGLE_CHARACTER_TOKENS.add(source.charAt(i));
         }
+    }
+
+    private static final Map<String, TokenKind> RESERVED_WORDS;
+    static {
+        RESERVED_WORDS = new HashMap<>();
+        RESERVED_WORDS.put("program", TokenKind.PROGRAM);
+        RESERVED_WORDS.put("begin", TokenKind.BEGIN);
+        RESERVED_WORDS.put("end", TokenKind.END);
+        RESERVED_WORDS.put("int", TokenKind.INT);
+        RESERVED_WORDS.put("if", TokenKind.IF);
+        RESERVED_WORDS.put("then", TokenKind.THEN);
+        RESERVED_WORDS.put("else", TokenKind.ELSE);
+        RESERVED_WORDS.put("while", TokenKind.WHILE);
+        RESERVED_WORDS.put("loop", TokenKind.LOOP);
+        RESERVED_WORDS.put("read", TokenKind.READ);
+        RESERVED_WORDS.put("write", TokenKind.WRITE);
     }
 
     /**
@@ -45,7 +63,7 @@ final class Tokenizer1 implements Tokenizer {
 
     static {
         DELIMITER_PREFIX_CHARACTERS = new HashSet<>();
-        String source = "=|";
+        String source = "=|!<>&";
         for (int i = 0; i < source.length(); i++) {
             DELIMITER_PREFIX_CHARACTERS.add(source.charAt(i));
         }
@@ -111,7 +129,22 @@ final class Tokenizer1 implements Tokenizer {
         /**
          * State VERT_BAR is shown in the diagram with "one |" inside its oval.
          */
-        VERT_BAR;
+        VERT_BAR,
+
+        /**
+         * State VERT_BAR is shown in the diagram with "one |" inside its oval.
+         */
+        NOT_EQ,
+
+        /**
+         * State VERT_BAR is shown in the diagram with "one |" inside its oval.
+         */
+        GREATER_THAN,
+
+        /**
+         * State VERT_BAR is shown in the diagram with "one |" inside its oval.
+         */
+        LESS_THAN;
     }
 
     /**
@@ -198,6 +231,18 @@ final class Tokenizer1 implements Tokenizer {
                 result = State.VERT_BAR;
                 break;
             }
+            case '!': {
+                result = State.NOT_EQ;
+                break;
+            }
+            case '>': {
+                result = State.GREATER_THAN;
+                break;
+            }
+            case '<': {
+                result = State.LESS_THAN;
+                break;
+            }
             default: {
                 /* Should only occur if precondition is violated. */
                 assert false : ""
@@ -221,6 +266,38 @@ final class Tokenizer1 implements Tokenizer {
         switch (i) {
             case ';': {
                 result = TokenKind.SEMICOLON;
+                break;
+            }
+            case ',': {
+                result = TokenKind.COMMA;
+                break;
+            }
+            case '[': {
+                result = TokenKind.FORWARD_BRACKET;
+                break;
+            }
+            case ']': {
+                result = TokenKind.BACKWARD_BRACKET;
+                break;
+            }
+            case '(': {
+                result = TokenKind.FORWARD_PARENTHESIS;
+                break;
+            }
+            case ')': {
+                result = TokenKind.BACKWARD_PARENTHESIS;
+                break;
+            }
+            case '+': {
+                result = TokenKind.ADDITION;
+                break;
+            }
+            case '-': {
+                result = TokenKind.SUBTRACTION;
+                break;
+            }
+            case '*': {
+                result = TokenKind.MULTIPLICATION;
                 break;
             }
             default: {
@@ -297,7 +374,13 @@ final class Tokenizer1 implements Tokenizer {
                         }
                         case GATHERING_LOWER_CASE: {
                             if (this.head.length() <= this.pos) {
-                                this.kind = TokenKind.LOWER_CASE_WORD;
+                                if (RESERVED_WORDS
+                                        .containsKey(this.token.toString())) {
+                                    this.kind = RESERVED_WORDS
+                                            .get(this.token.toString());
+                                } else {
+                                    this.kind = TokenKind.ERROR;
+                                }
                                 seeking = false;
                             } else {
                                 char current = this.head.charAt(this.pos);
@@ -308,7 +391,13 @@ final class Tokenizer1 implements Tokenizer {
                                     this.collectCharacter(current);
                                     state = State.ERROR;
                                 } else {
-                                    this.kind = TokenKind.LOWER_CASE_WORD;
+                                    if (RESERVED_WORDS.containsKey(
+                                            this.token.toString())) {
+                                        this.kind = RESERVED_WORDS
+                                                .get(this.token.toString());
+                                    } else {
+                                        this.kind = TokenKind.ERROR;
+                                    }
                                     seeking = false;
                                 }
                             }
@@ -404,6 +493,57 @@ final class Tokenizer1 implements Tokenizer {
                                     this.kind = TokenKind.ERROR;
                                     seeking = false;
                                     state = State.ERROR;
+                                }
+                            }
+                            break;
+                        }
+                        case NOT_EQ: {
+                            if (this.head.length() <= this.pos) {
+                                this.kind = TokenKind.EXCLAMATION;
+                                seeking = false;
+                            } else {
+                                char current = this.head.charAt(this.pos);
+                                if (current == '=') {
+                                    this.collectCharacter(current);
+                                    this.kind = TokenKind.NOT_EQUAL;
+                                    seeking = false;
+                                } else {
+                                    this.kind = TokenKind.EXCLAMATION;
+                                    seeking = false;
+                                }
+                            }
+                            break;
+                        }
+                        case GREATER_THAN: {
+                            if (this.head.length() <= this.pos) {
+                                this.kind = TokenKind.GREATER_THAN;
+                                seeking = false;
+                            } else {
+                                char current = this.head.charAt(this.pos);
+                                if (current == '=') {
+                                    this.collectCharacter(current);
+                                    this.kind = TokenKind.GREATER_THAN_OR_EQUAL_TO;
+                                    seeking = false;
+                                } else {
+                                    this.kind = TokenKind.GREATER_THAN;
+                                    seeking = false;
+                                }
+                            }
+                            break;
+                        }
+                        case LESS_THAN: {
+                            if (this.head.length() <= this.pos) {
+                                this.kind = TokenKind.LESS_THAN;
+                                seeking = false;
+                            } else {
+                                char current = this.head.charAt(this.pos);
+                                if (current == '=') {
+                                    this.collectCharacter(current);
+                                    this.kind = TokenKind.LESS_THAN_OR_EQUAL_TO;
+                                    seeking = false;
+                                } else {
+                                    this.kind = TokenKind.LESS_THAN;
+                                    seeking = false;
                                 }
                             }
                             break;
