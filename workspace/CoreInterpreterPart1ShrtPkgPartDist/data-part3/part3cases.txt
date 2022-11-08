@@ -1,0 +1,132 @@
+Below are three sets of data for the interpreter. Each set consists of a Core program followed by a sequence of integers to be input by the Core program when it is executed (interpreted). The only output that should be produced by the Core program when it is executed are the ones corresponding to the "write" statements in the Core program.
+But this output should consist of the name of the identifier in question, followed by "=", followed by the current value of the identifier, with appropriate whitespaces. Each output should appear on a separate line.
+ 
+As stated in the project assignment, the main function/procedure of your project will call the parseProg(), printProg(), and execProg() procedures in that order (possibly after some initialization and possibly with some additional steps for checking context-sensitive conditions). The first will read in the Core program and parse it, producing the abstract parse tree of the program. The second will print the Core program; this output must be appropriately formatted (thus even if the Core program when you read it in from the input stream during the parsing stage was, say, all on a single line, your print procedures must print the Core program in a properly formatted manner). The third step, execProg(), will execute the Core program, during which stage, as stated in the first paragraph, the only output will be the ones produced by executing "write" statements of the Core program. [The above description assumes you have used a single ParseTree class; if you have a separate class for each non-terminal, the description has to be appropriately rewritten.]
+ 
+Note that keywords in Core programs must be all in lowercase and identifiers are made up of uppercase letters (and digits).
+ 
+If you note any problems in the data below, please e-mail me. If you have other data you have created, send me those too. Thanks.
+ 
+/ Wayne.
+ 
+Note that the first program has white space between every pair of tokens, the others do not.  If your getToken()/skipToken() need the white space, insert them also into the second and third programs (but try to fix your getToken()/skipToken() before submitting; if you are not able to, make sure you explain this in your documentation; you will still lose some points but at least the grader won't think there is a more serious problem with your interpreter).
+ 
+First data set:
+========================================================
+ 
+program int X , Y , XY ;
+ 
+          begin read X ; Y  = 0 ;
+ 
+                while ( X > 0 ) loop
+ 
+                                  read XY ; write XY ;
+ 
+                                  Y  = Y + XY ; X  = X - 1 ;
+ 
+                                end ;
+ 
+                write Y ;
+ 
+          end
+ 
+ 
+5  7  -4  10  5  -9
+ 
+========================================================
+
+The following (between the pair of double lines made by the rows of equal signs) is acceptably correct expected output for the first data set:
+
+========================================================
+ 
+program
+    int X, Y, XY;
+begin
+    read X;
+    Y = 0;
+    while (X > 0) loop
+        read XY;
+        write XY;
+        Y = Y + XY;
+        X = X - 1;
+    end;
+    write Y;
+end
+XY = 7
+XY = -4
+XY = 10
+XY = 5
+XY = -9
+Y = 9
+ 
+========================================================
+
+ 
+ 
+For the second program there are three sets of input data; i.e., for the same Core program, I have provided three possible sets of input data. So you should convert this to three files; the program part will be the same in all three files, but the integer data for the Core program will be one of the three sets.
+ 
+Second data set :
+========================================================
+ 
+ program int ABC, D;
+ 
+          begin read ABC; read D;
+ 
+                while (ABC != D) loop
+                    if (ABC > D) then ABC = ABC - D;
+ 
+                    else D = D - ABC; end;
+ 
+                end;
+ 
+ 
+                write D;
+ 
+          end
+ 
+ 
+First set of input data for this program: 9  36
+ 
+Second set of input data for this program: 7  24
+ 
+Third set of input data for this program: 1  15
+ 
+========================================================
+ 
+ 
+For the third program there are again three sets of input data.
+Third data set :
+========================================================
+ 
+program int X1, X4; int X2, X3, X7;
+ 
+          begin X1=0; X2=1; X3=1; read X4;
+ 
+                while (X1 < X4) loop
+ 
+                                   X7=X2+X3; X2=X3;
+ 
+                                   X3=X7; X1=X1+1;
+ 
+                                 end ;
+ 
+                write X2;
+ 
+          end
+ 
+ 
+First set of input data : 5
+ 
+Second set of input data : 10
+ 
+Third set of input data : 3
+ 
+========================================================
+ 
+ 
+--Wayne.
+ 
+ 
+p.s.: Any guesses what these programs do?
+
+
