@@ -60,6 +60,70 @@ src/edu/c3341/TokenizerTest.java
 src/edu/c3341/TokenizerTestEnhanced.java
     An enhanced test driver that shows identifier names and integer values;
     it also concludes with the end-of-file token, 33.
+src/edu/c3341/Assign.java
+    This prints, parses and executes the assign statement in the core grammar 
+    and allows for variables to be assigned to identifiers
+src/edu/c3341/Comp.java
+    This prints, parses and executes the comparing operators. This includes 
+    checking if variables are greater than, less than, or equal to each other.
+src/edu/c3341/CompOp.java
+    This prints, parses and executes the comparing operators statement Which are
+    the actual signs of what is being calculated.
+src/edu/c3341/Cond.java
+    This prints, parses and executes the Condition statement in the core grammar 
+    and allows for variables to be evaluated into boolean expressions. This 
+    could be checking ands nots and ors.
+src/edu/c3341/Decl.java
+    This prints, parses and executes the Declaration of a variable. This would 
+    allow a variable to be an identifier.
+src/edu/c3341/DeclSeq.java
+    This prints, parses and executes the Declaration sequence which is a grammar
+    for whether the declaration is a sequence of delcarations or just a delaration
+src/edu/c3341/Exp.java
+    This prints, parses and executes the exp which is an expression of math.
+    This would e a statement that multiplies, divides, subtracts, or adds terms 
+    together.
+src/edu/c3341/Id.java
+    This prints, parses and executes the Id statement which would be a letter 
+    that could e made as a string or as a variable to be written or read into. 
+    On top of this, the variable is also used in statements and declarations
+src/edu/c3341/IdList.java
+    This prints, parses and executes the list of Ids which is a string and can 
+    become a variable and evaluates that into being read or written into
+src/edu/c3341/If.java
+    This prints, parses and executes the If statement in the core grammar 
+    which has 2 alternatives and that allows for an if-else or a if- end.
+src/edu/c3341/In.java
+    This prints, parses and executes the In statement which is what is being put
+    as the input file and read into the interpreter
+src/edu/c3341/Loop.java
+    This prints, parses and executes the Loop statement in the core grammar 
+    and allows for a while loop to be used inside of the core language
+src/edu/c3341/No.java
+    This prints, parses and executes the No statement in the core grammar 
+    which checks for numbers and allows for those to be used in Core 
+src/edu/c3341/Op.java
+    This prints, parses and executes the Operators in the ore grammar. This does
+    not evaluate anything but gets the actual operators + - *.
+src/edu/c3341/Out.java
+    This prints, parses and executes the out statement which allows for the
+    program to write to a file elsewhere the output
+src/edu/c3341/Prog.java
+    This prints, parses and executes the Prog statement which is the first 
+    statement in the grammar and initializes the program. it contains
+    a begin and also goes to the declaration.
+src/edu/c3341/Reporter.java
+    This is responsible for reporting the errors that show up to the console
+src/edu/c3341/Stmt.java
+    This prints, parses and executes the Statement statement in the core grammar 
+    which is a series of letters that are not declaration and could be a sequence
+    This includes the assign,if,loop,in,and out
+src/edu/c3341/StmtSeq.java
+    This prints, parses and executes the Sequence of possible statments which 
+    are multiple commands into the grammar and checking how many it is in a row
+src/edu/c3341/Term.java
+    This prints, parses and executes the term statement which is a multiplication 
+    function or just a number.
     
 data/test01
 data/test02

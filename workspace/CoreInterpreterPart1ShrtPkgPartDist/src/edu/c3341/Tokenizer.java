@@ -1,7 +1,5 @@
 package edu.c3341;
 
-import java.math.BigInteger;
-
 /**
  * Tokenizer for Core Interpreter project. (Note: by package-wide convention,
  * unless stated otherwise, all references are non-null.)
@@ -136,14 +134,14 @@ interface Tokenizer {
      * @requires [the kind of this.front is INTEGER_CONSTANT]
      * @ensures intVal = [the integer value of this.front]
      */
-    BigInteger intVal();
+    int intVal();
 
     /**
-     * Return the name of the front IDENTIFIER token. (Restores this.)
+     * Check if current Tokenkind matches the given TokenKind
      *
-     * @return the name of the front IDENTIFIER token
-     * @requires [the kind of this.front is IDENTIFIER]
-     * @ensures intVal = this.front
+     * @return is the given TokenKind
+     * @requires formal parameter is TokenKind type
      */
-    String idName();
+    Boolean isKind(TokenKind kind);
+
 }

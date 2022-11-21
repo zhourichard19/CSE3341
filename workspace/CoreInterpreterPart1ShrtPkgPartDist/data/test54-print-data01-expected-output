@@ -1,0 +1,11 @@
+program
+    int I, J;
+begin
+    read I;
+    if (I == 3) then
+        J = 4;
+    end;
+    J = J + 1;
+    write J;
+end
+J = 5

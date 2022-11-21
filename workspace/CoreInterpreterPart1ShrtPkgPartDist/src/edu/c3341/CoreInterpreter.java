@@ -79,12 +79,12 @@ public final class CoreInterpreter {
         Prog program = new Prog();
         Id.prepareParse();
         try {
-            program.parse();
+            program.parseProg();
             if (shouldPrint) {
-                program.print(0);
+                program.printProg();
             }
             Id.prepareRun(data);
-            program.exec();
+            program.execProg();
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
             System.err.println("Error: " + e.getMessage());
@@ -92,7 +92,7 @@ public final class CoreInterpreter {
              * The following call is used only during development. It is
              * commented out in "released" versions of the program.
              */
-            //            e.printStackTrace();
+            e.printStackTrace();
         } finally {
             /*
              * Close scanners

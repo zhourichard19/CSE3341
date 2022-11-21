@@ -1,1 +1,1 @@
-java -cp ./bin edu/c3341/TokenizerTest
+java -cp ./bin edu/c3341/CoreInterpreter

@@ -61,7 +61,7 @@ public final class TokenizerTestEnhanced {
             System.err.println("Error opening file: " + args[0]);
             return;
         }
-        Tokenizer1.set(in);
+        Tokenizer1.create(in);
         performEnhancedTest();
         /*
          * Close input stream

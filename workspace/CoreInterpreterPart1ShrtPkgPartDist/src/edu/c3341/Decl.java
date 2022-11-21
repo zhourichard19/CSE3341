@@ -1,7 +1,5 @@
 package edu.c3341;
 
-import javax.swing.text.Utilities;
-
 /**
  * Responsible for the <prog> non-terminal symbol of the context-free grammar
  * for the Core programming language.
@@ -20,14 +18,8 @@ final class Decl {
      *
      */
     public void parseD() {
-        Tokenizer t = Tokenizer1.instance();
-        Reporter.assertElseFatalError(t.getToken() == TokenKind.INT,
-                "Expected \"int\".");
-        t.skipToken();
         this.idl = new IdList();
-        this.idl.parseidl();
-        Reporter.assertElseFatalError(t.getToken() == TokenKind.SEMICOLON,
-                "Expected \";\".");
+        this.idl.parseIdl();
     }
 
     /**
@@ -36,19 +28,17 @@ final class Decl {
      * @param indent
      *            Number of spaces with which to indent Core program.
      */
-    public void printD(int indent) {
-        Utilities.printSpaces(indent);
-        System.out.println("int");
-        this.idl.printD(indent + Utilities.indentationFactor());
-        Utilities.printSpaces(indent);
-        System.out.println(";");
+    public void printD() {
+        System.out.print("int ");
+        this.idl.printIdl();
+        System.out.print(";");
     }
 
     /**
      * Executes a Core program.
      */
     public void execD() {
-        this.idl.execidl();
+        this.idl.execIdl();
     }
 
 }

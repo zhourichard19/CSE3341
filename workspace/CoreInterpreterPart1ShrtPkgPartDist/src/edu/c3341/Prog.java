@@ -1,7 +1,5 @@
 package edu.c3341;
 
-import javax.swing.text.Utilities;
-
 /**
  * Responsible for the <prog> non-terminal symbol of the context-free grammar
  * for the Core programming language.
@@ -24,7 +22,7 @@ final class Prog {
      * Parses a Core program into this object.
      *
      */
-    public void parse() {
+    public void parseProg() {
         Tokenizer t = Tokenizer1.instance();
         Reporter.assertElseFatalError(t.getToken() == TokenKind.PROGRAM,
                 "Expected \"program\".");
@@ -35,7 +33,7 @@ final class Prog {
                 "Expected \"begin\".");
         t.skipToken();
         this.ss = new StmtSeq();
-        this.ss.parse();
+        this.ss.parseSS();
         Reporter.assertElseFatalError(t.getToken() == TokenKind.END,
                 "Expected \"end\".");
         t.skipToken();
@@ -49,22 +47,19 @@ final class Prog {
      * @param indent
      *            Number of spaces with which to indent Core program.
      */
-    public void print(int indent) {
-        Utilities.printSpaces(indent);
-        System.out.println("program");
-        this.ds.print(indent + Utilities.indentationFactor());
-        Utilities.printSpaces(indent);
-        System.out.println("begin");
-        this.ss.print(indent + Utilities.indentationFactor());
-        Utilities.printSpaces(indent);
-        System.out.println("end");
+    public void printProg() {
+        System.out.print("program");
+        this.ds.printDS(2);
+        System.out.print("\nbegin");
+        this.ss.printSS(2);
+        System.out.println("\nend");
     }
 
     /**
      * Executes a Core program.
      */
-    public void exec() {
-        this.ss.exec();
+    public void execProg() {
+        this.ss.execSS();
     }
 
 }

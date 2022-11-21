@@ -3,11 +3,11 @@
  */
 package edu.c3341;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -144,7 +144,12 @@ final class Tokenizer1 implements Tokenizer {
         /**
          * State VERT_BAR is shown in the diagram with "one |" inside its oval.
          */
-        LESS_THAN;
+        LESS_THAN,
+
+        /**
+         * State AMPERSAND is shown in the diagram with "one |" inside its oval.
+         */
+        AMPERSAND;
     }
 
     /**
@@ -173,6 +178,11 @@ final class Tokenizer1 implements Tokenizer {
     private TokenKind kind;
 
     /**
+     * The inputfile scanner
+     */
+    private Scanner inputFile;
+
+    /**
      * According to the singleton pattern, make the default constructor private.
      */
     private Tokenizer1() {
@@ -189,7 +199,7 @@ final class Tokenizer1 implements Tokenizer {
      * @return the single instance of the Tokenizer
      *
      */
-    public static synchronized Tokenizer set(Iterator<String> itString) {
+    public static Tokenizer create(Iterator<String> itString) {
         if (Tokenizer1.singleInstance == null) {
             Tokenizer1.singleInstance = new Tokenizer1();
             Tokenizer1.singleInstance.token = new StringBuilder();
@@ -548,6 +558,25 @@ final class Tokenizer1 implements Tokenizer {
                             }
                             break;
                         }
+                        case AMPERSAND: {
+                            if (this.head.length() <= this.pos) {
+                                this.kind = TokenKind.ERROR;
+                                seeking = false;
+                                state = State.ERROR;
+                            } else {
+                                char current = this.head.charAt(this.pos);
+                                if (current == '&') {
+                                    this.collectCharacter(current);
+                                    this.kind = TokenKind.AND_OPERATOR;
+                                    seeking = false;
+                                } else {
+                                    this.kind = TokenKind.ERROR;
+                                    seeking = false;
+                                    state = State.ERROR;
+                                }
+                            }
+                            break;
+                        }
                         case ERROR: {
                             if (this.head.length() <= this.pos) {
                                 this.kind = TokenKind.ERROR;
@@ -607,8 +636,8 @@ final class Tokenizer1 implements Tokenizer {
      * @return the integer value of the current INTEGER_CONSTANT token
      */
     @Override
-    public BigInteger intVal() {
-        return new BigInteger(this.token.toString());
+    public int intVal() {
+        return Integer.parseInt(this.token.toString());
     }
 
     /**
@@ -619,5 +648,46 @@ final class Tokenizer1 implements Tokenizer {
     @Override
     public String idName() {
         return this.token.toString();
+    }
+
+    /**
+     * Return the is the given TokenKind.
+     *
+     * @return is the given Tokenkind
+     */
+    @Override
+    public Boolean isKind(TokenKind kind) {
+        TokenKind currKind = this.getToken();
+        if (currKind != kind) {
+            return false;
+        }
+        this.skipToken();
+        return true;
+    }
+
+    /**
+     * Throw error message
+     *
+     */
+    @Override
+    public void errMsg(String s) {
+        String str;
+        if (this.kind == TokenKind.EOF) {
+            str = "nothing";
+        } else {
+            str = this.idName();
+        }
+        throw new RuntimeException(
+                "Expected " + s + " but " + str + " is given!");
+
+    }
+
+    /**
+     * return int from inputfile
+     *
+     */
+    @Override
+    public int readData() {
+        return this.inputFile.nextInt();
     }
 }

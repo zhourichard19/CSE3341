@@ -20,48 +20,33 @@ final class DeclSeq {
     /**
      * The main statement sequence.
      */
-    private int altNo;
+    private TokenKind kind;
 
     /**
      * Parses a Core program into this object.
      *
      */
     public void parseDS() {
-        Tokenizer t = Tokenizer1.instance();
-        this.altNo = 1;
         this.d = new Decl();
         this.d.parseD();
-
-        if (t.getToken() == TokenKind.INT) {
-            this.altNo = 2;
-            this.ds = new DeclSeq();
-            this.ds.parseDS();
-        }
+        this.kind = Tokenizer1.instance().getToken();
     }
 
     /**
      * Pretty prints a Core program indented by indent spaces.
      */
-    public void printDS() {
-        if (this.altNo == 1) {
-            this.d.printD();
-            return;
-        } else {
-            this.ds.printDS();
-            return;
-        }
+    public void printDS(int n) {
+        System.out.print("\n");
+        this.d.printD();
     }
 
     /**
      * Executes a Core program.
      */
     public void execDS() {
-        if (this.altNo == 1) {
-            this.d.execD();
-            return;
-        } else {
+        this.d.execD();
+        if (this.kind != TokenKind.BEGIN) {
             this.ds.execDS();
-            return;
         }
     }
 

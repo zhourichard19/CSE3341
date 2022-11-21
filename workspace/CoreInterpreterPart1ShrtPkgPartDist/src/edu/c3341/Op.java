@@ -7,11 +7,11 @@ package edu.c3341;
  * @author Wayne Heym
  *
  */
-final class Id {
+final class Op {
     /**
      * The declaration sequence.
      */
-    private Id idl;
+    private No n;
 
     /**
      * The main statement sequence.
@@ -20,43 +20,42 @@ final class Id {
     /**
      * The main statement sequence.
      */
-    private int altNo;
+    private Exp e;
+
+    /**
+     * The main statement sequence.
+     */
+    private TokenKind kind;
 
     /**
      * Parses a Core program into this object.
      *
      */
-    public static Id parseforDeclSeq() {
-        Tokenizer t = Tokenizer1.instance();
-        Reporter.assertElseFatalError(t.getToken() == TokenKind.IDENTIFIER,
-                "Expected an identifier.");
+    public void parseOp() {
+
     }
 
     /**
      * Pretty prints a Core program indented by indent spaces.
      *
      */
-    public void printidl() {
-        if (this.altNo == 1) {
+    public void printOp() {
+        if (this.kind == TokenKind.INTEGER_CONSTANT) {
+            this.n.printNo();
+        } else if (this.kind == TokenKind.IDENTIFIER) {
             this.id.printId();
-            return;
         } else {
-            this.idl.printidl();
-            return;
+            System.out.print("(");
+            this.e.printExp();
+            System.out.print(")");
         }
     }
 
     /**
      * Executes a Core program.
      */
-    public void execidl() {
-        if (this.altNo == 1) {
-            this.id.execId();
-            return;
-        } else {
-            this.idl.execidl();
-            return;
-        }
+    public void execOp() {
+
     }
 
 }

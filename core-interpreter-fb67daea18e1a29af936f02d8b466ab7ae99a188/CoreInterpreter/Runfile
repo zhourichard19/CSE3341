@@ -1,0 +1,4 @@
+java edu/c3341/Interpreter test03 test03_data1 print
+java edu/c3341/Interpreter test03 test03_data1 doNotPrint
+java edu/c3341/Interpreter test01 print
+java edu/c3341/Interpreter test01 doNotPrint
